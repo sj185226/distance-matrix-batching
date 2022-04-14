@@ -8,4 +8,9 @@ public class BatchDistanceMatrixBuilder {
     }
 
     //write batch methods for generation
+
+    //method to get pseudo calculated value mimicking distance between points
+    public static int getVal(int posi, int posj, int i, int j) {
+        return posi*posj + posi + posj + i*j;
+    }
 }
