@@ -29,7 +29,17 @@ public class BatchDistanceMatrixTester {
 
     public static List<List<Integer>> test(int batchSize, List<Integer> values) {
         BatchDistanceMatrixBuilder dmb = new BatchDistanceMatrixBuilder(batchSize);
-        return dmb.solve(data);
+        List<List<Integer>> snehal = new ArrayList<>();
+        int[][] box = dmb.solve(values);
+        for(int i = 0; i < values.size(); i++){
+            List<Integer> rajneesh = new ArrayList<>();
+            for(int j = 0; j < values.size(); j++){
+                rajneesh.add(box[i][j]);
+            }
+            snehal.add(rajneesh);
+        }
+
+        return snehal;
     }
 
     public static void test() {
@@ -62,7 +72,16 @@ public class BatchDistanceMatrixTester {
                 }
 
                 BatchDistanceMatrixBuilder dmb = new BatchDistanceMatrixBuilder(batchSize);
-                List<List<Integer>> actualResult = dmb.solve(data);
+                List<List<Integer>> snehal = new ArrayList<>();
+                int[][] box = dmb.solve(data);
+                for(int i = 0; i < data.size(); i++){
+                    List<Integer> rajneesh = new ArrayList<>();
+                    for(int j = 0; j < data.size(); j++){
+                        rajneesh.add(box[i][j]);
+                    }
+                    snehal.add(rajneesh);
+                }
+                List<List<Integer>> actualResult = snehal;
 
                 checkResult(batchSize, data, actualResult, expectedResult);
                 failed--;
