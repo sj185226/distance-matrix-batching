@@ -14,7 +14,7 @@ public class BatchDistanceMatrixBuilder {
 
     //method to get pseudo calculated value mimicking distance between points
     public static int getVal(int posi, int posj, int i, int j) {
-        return   posi*posj + i*j;
+        return    i*j;
     }
 
     public int[][] solve(List<Integer> list){
@@ -25,6 +25,7 @@ public class BatchDistanceMatrixBuilder {
 		int remainingColumns = listSize%boxLength;
 		int callsForOneExcessFill = listSize/boxSize;
 		int excessFillStart = listSize - listSize%boxLength;
+		int excessFillLastCallIndex = listSize-listSize%boxSize;
 		
 		if(boxLength>=listSize){
 		    fillBox(list, list, box, 0, 0, listSize);
@@ -38,7 +39,7 @@ public class BatchDistanceMatrixBuilder {
 				for(int j = 0; j < callsToFillBoxLine; j++){
 					List<Integer> destinations = new ArrayList<>();
 					for(int k = 0; k < boxLength; k++){
-						destinations.add(list.get(boxLength*i+k));
+						destinations.add(list.get(boxLength*j+k));
 					}
 					fillBox(origins, destinations, box, i, j, boxLength);
 				}
@@ -62,6 +63,11 @@ public class BatchDistanceMatrixBuilder {
 						}
 						fillColumns(origins,destinations,j,box,i*boxSize,boxSize);
 					}
+					List<Integer> origins = new ArrayList<>();
+					for(int k = excessFillLastCallIndex; k < excessFillStart; k++){
+						origins.add(list.get(k));
+					}
+					fillColumns(origins, destinations, j, box, excessFillLastCallIndex,excessFillStart-excessFillLastCallIndex);
 				}
 			}
 
@@ -83,6 +89,11 @@ public class BatchDistanceMatrixBuilder {
 						}
 						fillRows(origins,destinations,i,box,j*boxSize,boxSize);
 					}
+					List<Integer> destinations = new ArrayList<>();
+					for(int k = excessFillLastCallIndex; k < excessFillStart; k++){
+						destinations.add(list.get(k));
+					}
+					fillRows(origins, destinations, i, box, excessFillLastCallIndex,excessFillStart-excessFillLastCallIndex);
 				}
 			}
 

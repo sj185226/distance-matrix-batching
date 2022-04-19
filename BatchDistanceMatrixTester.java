@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 public class BatchDistanceMatrixTester {
     
+    static int flag =0;
     public static void main(String[] args) {
         LogWriter.init();
         Scanner scanner = new Scanner(System.in);
@@ -15,6 +16,8 @@ public class BatchDistanceMatrixTester {
         if(choice == 1) {
             test();
             scanner.close();
+            if(flag==0) System.out.println("SUCCESS");
+            else System.out.println("FAILURE");
             return;
         }
         System.out.println("batch size");
@@ -25,6 +28,8 @@ public class BatchDistanceMatrixTester {
         System.out.println("result");
         System.out.println(res);
         scanner.close();
+        if(flag==0) System.out.println("SUCCESS");
+        else System.out.println("FAILURE");
     }
 
     public static List<List<Integer>> test(int batchSize, List<Integer> values) {
@@ -96,11 +101,13 @@ public class BatchDistanceMatrixTester {
 
     private static void checkResult(int batchSize, List<Integer> data, List<List<Integer>> actualResult, List<List<Integer>> expectedResult) throws IncorrectResultException {
         if(actualResult.size() != expectedResult.size()) {
+            flag = 1;
             throw new IncorrectResultException(batchSize, data, expectedResult, actualResult, "row Count");
         }
 
         for(int i=0; i<actualResult.size(); i++) {
             if(actualResult.get(i).size() != expectedResult.get(i).size()) {
+                flag = 1;
                 throw new IncorrectResultException(batchSize, data, expectedResult, actualResult, "at row " + i);
             }
             for(int j=0; j<actualResult.get(i).size(); j++) {
