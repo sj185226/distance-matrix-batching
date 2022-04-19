@@ -7,6 +7,7 @@ public class IncorrectResultException extends Exception {
     private List<List<Integer>> expectedResult;
     private List<List<Integer>> actualResult;
     private String pos;
+    private LogWriter lw;
     IncorrectResultException(int batchSize, List<Integer> values, List<List<Integer>> expectedResult, List<List<Integer>> actualResult, String pos) {
         super();
         this.actualResult = actualResult;
@@ -14,17 +15,19 @@ public class IncorrectResultException extends Exception {
         this.expectedResult = expectedResult;
         this.values = values;
         this.pos = pos;
+        lw = new LogWriter();
     }
 
     public void printInfo() {
         if(pos != null) {
-            System.err.println("SizeMismatch for two results at " + pos);
+            lw.println("SizeMismatch for two results at " + pos);
         }
-        System.err.println("Expected didn't matched with actual result for:-");
-        System.err.println("batch size: " + batchSize);
-        System.err.println("values: " + values);
-        System.err.println("expected result: " + expectedResult);
-        System.err.println("actual result: " + actualResult);
+        lw.println("Expected didn't matched with actual result for:-");
+        lw.println("batch size: " + batchSize);
+        lw.println("data length " + actualResult.size());
+        lw.println("values: " + values);
+        lw.printResult("expected result: ", expectedResult);
+        lw.printResult("actual result: ", actualResult);
 
     }
 }

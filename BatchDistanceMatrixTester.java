@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 public class BatchDistanceMatrixTester {
     
-    
     public static void main(String[] args) {
+        LogWriter.init();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter (1) to test randomly and 2 to test with data");
         int choice = scanner.nextInt();
@@ -50,7 +50,7 @@ public class BatchDistanceMatrixTester {
             try {
                 failed++;
                 int dataLimit = 10000;
-                int cpLimit = 10000-16;
+                int cpLimit = 100-16;
 
                 Random random = new Random();
 
@@ -104,8 +104,8 @@ public class BatchDistanceMatrixTester {
                 throw new IncorrectResultException(batchSize, data, expectedResult, actualResult, "at row " + i);
             }
             for(int j=0; j<actualResult.get(i).size(); j++) {
-                if(actualResult.get(i).get(j) != expectedResult.get(i).get(j)) {
-                    throw new IncorrectResultException(batchSize, data, expectedResult, actualResult, null);
+                if(!actualResult.get(i).get(j).equals(expectedResult.get(i).get(j))) {
+                    throw new IncorrectResultException(batchSize, data, expectedResult, actualResult, "at pos (" + i + ", " + j + ")\n expected val: " + expectedResult.get(i).get(j) + ", actual val: " + actualResult.get(i).get(j));
                 }
             }
         }
